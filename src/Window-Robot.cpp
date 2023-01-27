@@ -2,45 +2,64 @@
 #include <ESP8266mDNS.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
+#include "index.h"
 
 const int dirPin = D0;
-const int stepPin = D1;
-const int switchPin = D2;
+const int stepPin = D8;
 
-const char* ssid = "Window-Control";
-const char* password = "password";
+const char* ssid = "VTOW-Res308-2.4ghz";
+const char* password = "relentless49rpc45";
+
+const String root = Main_Page;
 
 ESP8266WebServer server(80);
 
-void motorControl(){
-  for(int i=0; i<10000; i++){
+void motorControl(int steps, int speed, boolean direction){
+  digitalWrite(dirPin, direction);
+  for(int i = 0; i<steps; i++){
     digitalWrite(stepPin, HIGH);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
     digitalWrite(stepPin, LOW);
-    delayMicroseconds(1000);
+    delayMicroseconds(speed);
+    yield();
   }
 }
 
 void handleRoot(){
-  server.send(200, "text/html", "<a href=\"/cycle\"><Button>Stepper ON</Button></a>");
+  server.send(200, "text/html", root);
 }
 
-void cycleStepper(){
-  server.send(200, "text/html", "<a href=\"/cycle\"><Button>Stepper ON</Button></a>");
-  motorControl();
+void stepperON(){
+  server.send(200, "text/html", root);
+  motorControl(20000, 1000, HIGH);
+}
+
+void stepperOFF(){
+  server.send(200, "text/html", root);
+  motorControl(20000, 1000, LOW);
 }
 
 void setup() {
-  WiFi.softAP(ssid, password);
+  WiFi.begin(ssid, password);
+  while(WiFi.status() != WL_CONNECTED) {
+    delay(500);
+  }
   pinMode(dirPin, OUTPUT);
   pinMode(stepPin, OUTPUT);
-  pinMode(switchPin, INPUT_PULLUP);
   digitalWrite(dirPin, 1);
   server.on("/", handleRoot);
-  server.on("/cycle", cycleStepper);
+  server.on("/stepperON", stepperON);
+  server.on("/stepperOFF", stepperOFF);
+
+  MDNS.begin("windowcontrol", WiFi.localIP());
+
   server.begin();
+
+  MDNS.addService("http", "tcp", 80);
 }
 
 void loop() {
   server.handleClient();
+  MDNS.update();
 }
