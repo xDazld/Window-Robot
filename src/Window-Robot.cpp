@@ -13,7 +13,7 @@ const char* password = "password";
 ESP8266WebServer server(80);
 
 void motorControl(){
-  for(int i=0; i<1000; i++){
+  for(int i=0; i<10000; i++){
     digitalWrite(stepPin, HIGH);
     delayMicroseconds(1000);
     digitalWrite(stepPin, LOW);
