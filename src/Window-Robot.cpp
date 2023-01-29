@@ -62,8 +62,8 @@ void setup() {
     pinMode(stepPin, OUTPUT);
     digitalWrite(dirPin, 1);
     server.on("/", handleRoot);
-    server.on("/stepperON", stepperON);
-    server.on("/stepperOFF", stepperOFF);
+    server.on("/cycleON", stepperON);
+    server.on("/cycleOFF", stepperOFF);
     server.on("/assets/css/styles.min.css", handleStyles);
     server.on("manifest.json", handleManifest);
 
