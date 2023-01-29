@@ -2,64 +2,81 @@
 #include <ESP8266mDNS.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
-#include <ESP8266mDNS.h>
-#include "index.h"
+#include <LittleFS.h>
+#include "wifi.h"
 
 const int dirPin = D0;
 const int stepPin = D8;
 
-const char* ssid = "VTOW-Res308-2.4ghz";
-const char* password = "relentless49rpc45";
-
-const String root = Main_Page;
-
 ESP8266WebServer server(80);
 
-void motorControl(int steps, int speed, boolean direction){
-  digitalWrite(dirPin, direction);
-  for(int i = 0; i<steps; i++){
-    digitalWrite(stepPin, HIGH);
-    delayMicroseconds(speed);
-    digitalWrite(stepPin, LOW);
-    delayMicroseconds(speed);
-    yield();
-  }
+void motorControl(int steps, int speed, boolean direction) {
+    digitalWrite(dirPin, direction);
+    for (int i = 0; i < steps; i++) {
+        digitalWrite(stepPin, HIGH);
+        delayMicroseconds(speed);
+        digitalWrite(stepPin, LOW);
+        delayMicroseconds(speed);
+        yield();
+    }
 }
 
-void handleRoot(){
-  server.send(200, "text/html", root);
+void handleRoot() {
+    File index = LittleFS.open("index.html", "r");
+    server.send(200, "text/html", index.readString());
+    index.close();
 }
 
-void stepperON(){
-  server.send(200, "text/html", root);
-  motorControl(20000, 1000, HIGH);
+void handleStyles() {
+    File styles = LittleFS.open("assets/css/styles.min.css", "r");
+    server.send(200, "text/css", styles.readString());
+    styles.close();
 }
 
-void stepperOFF(){
-  server.send(200, "text/html", root);
-  motorControl(20000, 1000, LOW);
+void handleManifest() {
+    File manifest = LittleFS.open("manifest.json", "r");
+    server.send(200, "text/json", manifest.readString());
+    manifest.close();
+}
+
+void stepperON() {
+    File index = LittleFS.open("index.html", "r");
+    server.send(200, "text/html", index.readString());
+    index.close();
+    motorControl(20000, 1000, HIGH);
+}
+
+void stepperOFF() {
+    File index = LittleFS.open("index.html", "r");
+    server.send(200, "text/html", index.readString());
+    index.close();
+    motorControl(20000, 1000, LOW);
 }
 
 void setup() {
-  WiFi.begin(ssid, password);
-  while(WiFi.status() != WL_CONNECTED) {
-    delay(500);
-  }
-  pinMode(dirPin, OUTPUT);
-  pinMode(stepPin, OUTPUT);
-  digitalWrite(dirPin, 1);
-  server.on("/", handleRoot);
-  server.on("/stepperON", stepperON);
-  server.on("/stepperOFF", stepperOFF);
+    WiFi.begin(Ssid, Password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+    }
+    pinMode(dirPin, OUTPUT);
+    pinMode(stepPin, OUTPUT);
+    digitalWrite(dirPin, 1);
+    server.on("/", handleRoot);
+    server.on("/stepperON", stepperON);
+    server.on("/stepperOFF", stepperOFF);
+    server.on("/assets/css/styles.min.css", handleStyles);
+    server.on("manifest.json", handleManifest);
 
-  MDNS.begin("windowcontrol", WiFi.localIP());
+    MDNS.begin("windowcontrol", WiFi.localIP());
 
-  server.begin();
+    LittleFS.begin();
 
-  MDNS.addService("http", "tcp", 80);
+    server.begin();
+
+    MDNS.addService("http", "tcp", 80);
 }
 
 void loop() {
-  server.handleClient();
-  MDNS.update();
+    server.handleClient();
+    MDNS.update();
 }

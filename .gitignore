@@ -13,3 +13,6 @@ cmake-build-*/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# Wifi config
+src/wifi.h
