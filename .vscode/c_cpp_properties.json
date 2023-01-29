@@ -10,6 +10,7 @@
             "includePath": [
                 "C:/Arduino Code/Window-Robot/include",
                 "C:/Arduino Code/Window-Robot/src",
+                "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/LittleFS/src",
                 "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/ESP8266WebServer/src",
                 "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/ESP8266mDNS/src",
                 "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/ESP8266WiFi/src",
@@ -35,7 +36,6 @@
                 "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/GDBStub/src",
                 "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/Hash/src",
                 "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/I2S/src",
-                "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/LittleFS/src",
                 "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/Netdump/src",
                 "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/SD/src",
                 "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/SDFS/src",
@@ -59,6 +59,7 @@
                 "path": [
                     "C:/Arduino Code/Window-Robot/include",
                     "C:/Arduino Code/Window-Robot/src",
+                    "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/LittleFS/src",
                     "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/ESP8266WebServer/src",
                     "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/ESP8266mDNS/src",
                     "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/ESP8266WiFi/src",
@@ -84,7 +85,6 @@
                     "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/GDBStub/src",
                     "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/Hash/src",
                     "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/I2S/src",
-                    "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/LittleFS/src",
                     "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/Netdump/src",
                     "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/SD/src",
                     "C:/Users/lopezaj/.platformio/packages/framework-arduinoespressif8266/libraries/SDFS/src",
