@@ -39,6 +39,12 @@ void handleManifest() {
     manifest.close();
 }
 
+void handleBsInit() {
+    File bsInit = LittleFS.open("assets/js/bs-init.js", "r");
+    server.send(200, "text/javascript", bsInit.readString());
+    bsInit.close();
+}
+
 void stepperON() {
     File index = LittleFS.open("index.html", "r");
     server.send(200, "text/html", index.readString());
@@ -66,6 +72,7 @@ void setup() {
     server.on("/cycleUnwind", stepperOFF);
     server.on("/assets/css/styles.min.css", handleStyles);
     server.on("manifest.json", handleManifest);
+    server.on("assets/js/bs-init.js", handleBsInit);
 
     MDNS.begin("windowcontrol", WiFi.localIP());
 
