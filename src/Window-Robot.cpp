@@ -28,7 +28,7 @@ void handleRoot() {
 }
 
 void handleStyles() {
-    File styles = LittleFS.open("assets/css/styles.min.css", "r");
+    File styles = LittleFS.open("assets/css/styles.css", "r");
     server.send(200, "text/css", styles.readString());
     styles.close();
 }
@@ -70,9 +70,9 @@ void setup() {
     server.on("/", handleRoot);
     server.on("/cycleWind", stepperON);
     server.on("/cycleUnwind", stepperOFF);
-    server.on("/assets/css/styles.min.css", handleStyles);
-    server.on("manifest.json", handleManifest);
-    server.on("assets/js/bs-init.js", handleBsInit);
+    server.on("/assets/css/styles.css", handleStyles);
+    server.on("/manifest.json", handleManifest);
+    server.on("/assets/js/bs-init.js", handleBsInit);
 
     MDNS.begin("windowcontrol", WiFi.localIP());
 
